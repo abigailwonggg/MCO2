@@ -13,7 +13,6 @@ public class Slot {
      * Constructor for the Slot class
      *
      * @param item The item to be added to the slot
-     * @param slotCapacity The capacity of the slot
      * @param slotNumber The number assigned to the slot
      * 
      */

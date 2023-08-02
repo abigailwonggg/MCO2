@@ -164,7 +164,7 @@ public class Item {
 
     /**
      * Set the quantity of items sold in the vending machine. 
-     * @param quantitySold
+     * @param quantitySold the quantity of items sold
      */
     public void setQuantitySold(int quantitySold) {
         this.quantitySold = quantitySold;

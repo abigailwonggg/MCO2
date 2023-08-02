@@ -29,10 +29,11 @@ public class CustomizedPackage extends Item {
      * Adds an item along with its slot number to the package.
      *
      * @param item The item to be added to the package.
+     * @param slotNumber the slot number to be added to the list
      */
     public void addToPackage(Item item, int slotNumber) {
         packageItems.add(item);
-        packageSlotNumbers.add(slotNumber); // Add the slot number to the list
+        packageSlotNumbers.add(slotNumber); // 
     }
 
     /**

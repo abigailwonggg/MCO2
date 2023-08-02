@@ -19,7 +19,7 @@ public class VendingMachine {
     private int numSlots;
     private double totalValue = 0.0;
     private boolean paymentFinished = false;
-    
+
     /**
      * Constructor for VendingMachine class
      */
@@ -30,10 +30,10 @@ public class VendingMachine {
         itemPrices = new ArrayList<>();
         insertedAmounts = new ArrayList<>();
         changeAmounts = new ArrayList<>();
-        denominationsMap = new HashMap<>(); // Initialize denominationsMap       
+        denominationsMap = new HashMap<>(); // Initialize denominationsMap
         specialVendingMachines = new ArrayList<>();
     }
-       
+
     /**
      * Prints the main menu of the vending machine.
      */
@@ -69,7 +69,7 @@ public class VendingMachine {
     }
 
     /**
-     * Prints the menu for testing a vending machine.
+     * Prints the menu for testing a vending machine
      */
     public void displayTestVendingMachineMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
@@ -86,7 +86,7 @@ public class VendingMachine {
     }
 
     /**
-     * Prints the menu for testing vending machine features.
+     * Prints the menu for testing the features of a vending machine
      */
     public void displayTestFeaturesVM() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
@@ -101,9 +101,9 @@ public class VendingMachine {
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("╚══════════════════════════════════════════════╝");
     }
-    
+
     /**
-     * Prints the menu for testing vending machine features.
+     * Prints the menu for testing vending machine features
      */
     public void displayPurchaseMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
@@ -118,10 +118,10 @@ public class VendingMachine {
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("╚══════════════════════════════════════════════╝");
     }
-    
+
     /**
      * Displays the menu for payment
-     */ 
+     */
     public void displayPaymentMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
         System.out.println("║ ◍                                          ◍ ║");
@@ -139,7 +139,7 @@ public class VendingMachine {
     /**
      * Displays the options for inserting coins
      */
-     public void displayCoinsMenu() {
+    public void displayCoinsMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
@@ -158,7 +158,7 @@ public class VendingMachine {
     /**
      * Displays the options for inserting bills
      */
-     public void displayBillMenu() {
+    public void displayBillMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
@@ -200,8 +200,8 @@ public class VendingMachine {
     }
 
     /**
-     * Displays the menu for payment
-     */ 
+     * Displays the menu restock item under maintenance features
+     */
     public void displaySlotMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
         System.out.println("║ ◍                                          ◍ ║");
@@ -221,31 +221,32 @@ public class VendingMachine {
      */
     public void createVendingMachine() {
         displayCreateVendingMachineMenu();
-        
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nEnter your choice: ");
         int vendingMachineType = scanner.nextInt();
 
-        switch(vendingMachineType){
-            case 1: 
+        switch (vendingMachineType) {
+            case 1:
                 System.out.print("\nEnter the number of slots (minimum 8 | maximum 12): ");
                 numSlots = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
-                createRegularVendingMachine(numSlots);  
+                createRegularVendingMachine(numSlots);
                 break;
-            case 2:  
+            case 2:
                 createSpecialVendingMachine();
                 break;
-            case 3: 
+            case 3:
                 break;
             default:
-                System.out.println("Invalid choice.");  
+                System.out.println("Invalid choice.");
                 break;
         }
     }
 
     /**
      * Creates a regular vending machine.
+     * 
      * @param numSlots the number of slots in the the vending machine
      */
     public void createRegularVendingMachine(int numSlots) {
@@ -290,27 +291,28 @@ public class VendingMachine {
                     System.out.print("Enter the slot number of the item you want to add: ");
                     int selectedSlot = scanner.nextInt();
                     scanner.nextLine(); // Consume the newline character
-    
+
                     // Validate the selected slot
                     if (selectedSlot < 1 || selectedSlot > slots.size()) {
                         System.out.println("Invalid slot number. Please choose a valid slot.");
                         continue;
                     }
-    
+
                     // Get the selected slot from the list of slots
                     Slot slot = slots.get(selectedSlot - 1);
-    
+
                     // Check if the selected slot is empty
                     if (slot.isSlotEmpty()) {
                         System.out.println("Selected slot is empty. Please choose another slot.");
                         continue;
                     }
-    
+
                     // Get the item from the selected slot
                     Item item = slot.getItem();
-    
+
                     // Add the selected item to the package
-                    packageItems.add(item);                } else {
+                    packageItems.add(item);
+                } else {
                     // Ask for information to add a custom item to the package
                     System.out.print("Enter the name of the item: ");
                     String itemName = scanner.nextLine();
@@ -344,7 +346,8 @@ public class VendingMachine {
             scanner.nextLine(); // Consume the newline character
 
             // Create the Special Vending Machine instance and set the package information
-            SpecialVendingMachine specialVendingMachine = new SpecialVendingMachine(packageName, packageItems, packagePrice);
+            SpecialVendingMachine specialVendingMachine = new SpecialVendingMachine(packageName, packageItems,
+                    packagePrice);
             specialVendingMachines.add(specialVendingMachine);
 
             // Now you have the Special Vending Machine with the package information.
@@ -362,6 +365,7 @@ public class VendingMachine {
 
     /**
      * Performs the test operations of the vending machine.
+     * 
      * @param vendingItems The list of items available in the vending machine.
      */
     public void testVendingMachine(List<Item> vendingItems) {
@@ -372,7 +376,7 @@ public class VendingMachine {
         int featureType = scanner.nextInt();
 
         if (featureType == 1) {
-            performVendingMachineOperations();
+            testVM();
         } else if (featureType == 2) {
             performMaintenanceFeatures();
         }
@@ -381,7 +385,7 @@ public class VendingMachine {
     /**
      * Performs the vending machine operations based on the selected feature.
      */
-    private void performVendingMachineOperations() {
+    private void testVM() {
         Scanner scanner = new Scanner(System.in);
         displayTestFeaturesVM();
         System.out.print("\nEnter your choice: ");
@@ -389,7 +393,7 @@ public class VendingMachine {
 
         switch (vendingMachineFeatures) {
             case 1: // start test
-                performStartTestOperations();
+                startTest();
                 break;
             case 2: // end test
                 System.out.println("Ending the test.");
@@ -405,7 +409,7 @@ public class VendingMachine {
     /**
      * Performs the operations for starting the test of the vending machine
      */
-    private void performStartTestOperations() {
+    private void startTest() {
         Scanner scanner = new Scanner(System.in);
         boolean exitLoop = false;
 
@@ -467,9 +471,10 @@ public class VendingMachine {
             }
         }
     }
-    
+
     /**
-     * Performs the operations for purchasing a package from the special vending machine.
+     * Performs the operations for purchasing a package from the special vending
+     * machine.
      */
     private void performSpecialVendingMachinePurchase() {
         Scanner scanner = new Scanner(System.in);
@@ -544,7 +549,8 @@ public class VendingMachine {
                 } else {
                     Item selectedItem = slot.getItem();
                     selectedItems.add(selectedItem);
-                    customizedPackage.addToPackage(selectedItem, selectedSlot); // Add the item with the correct slot number
+                    customizedPackage.addToPackage(selectedItem, selectedSlot); // Add the item with the correct slot
+                                                                                // number
                     totalPrice += selectedItem.getItemPrice();
                     System.out.println("Item '" + selectedItem.getItemName() + "' added to the package.");
                 }
@@ -585,10 +591,10 @@ public class VendingMachine {
 
         switch (choicePayment) {
             case 1:
-                performCoinsInsertion();
+                insertCoins();
                 break;
             case 2:
-                performBillsInsertion();
+                insertBills();
                 break;
             case 3:
                 System.out.println("\nInserting money...");
@@ -603,7 +609,7 @@ public class VendingMachine {
     /**
      * Performs the operations for inserting coins into the vending machine
      */
-    private void performCoinsInsertion() {
+    private void insertCoins() {
         displayCoinsMenu();
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -647,7 +653,7 @@ public class VendingMachine {
     /**
      * Performs the operations for inserting bills into the vending machine
      */
-    private void performBillsInsertion() {
+    private void insertBills() {
         displayBillMenu();
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -756,7 +762,8 @@ public class VendingMachine {
      * Retrieves the Slot object based on the specified slot number.
      *
      * @param slotNumber The slot number of the Slot object to be retrieved.
-     * @return The Slot object with the given slot number, or {@code null} if no matching slot is found.
+     * @return The Slot object with the given slot number, or {@code null} if no
+     *         matching slot is found.
      */
     public Slot getSlotByNumber(int slotNumber) {
         for (Slot slot : slots) {
@@ -769,6 +776,7 @@ public class VendingMachine {
 
     /**
      * Sets the number of slots
+     * 
      * @param numSlots the number of slots
      */
     public void setNumSlots(int numSlots) {
@@ -777,21 +785,23 @@ public class VendingMachine {
 
     /**
      * Getter for slot list
+     * 
      * @return slots the slot number
      */
     public List<Slot> getSlots() {
         return slots;
     }
 
-    /*
-     *  Displays all products in regular vending machine
-    */
+    /**
+     * Displays all products in regular vending machine
+     */
     public void displayRVMProducts() {
         System.out.println("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫");
-        System.out.printf("┃ %-5s ┃ %-30s ┃ %-9s ┃ %-8s ┃ %-8s ┃\n", "Slot", "Item Name", "Price", "Quantity", "Calories");
+        System.out.printf("┃ %-5s ┃ %-30s ┃ %-9s ┃ %-8s ┃ %-8s ┃\n", "Slot", "Item Name", "Price", "Quantity",
+                "Calories");
         System.out.println("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫");
-    
-        for (Slot slot : slots) {            
+
+        for (Slot slot : slots) {
             int slotNumber = slot.getSlotNumber();
             if (isSlotEmpty(slotNumber)) {
                 // If the slot is empty, display it with empty values
@@ -805,7 +815,7 @@ public class VendingMachine {
                 }
             }
         }
-    
+
         System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
     }
 
@@ -833,7 +843,8 @@ public class VendingMachine {
                 int itemCalories = item.getItemCalories();
 
                 // Format the row in the table
-                System.out.printf("| %-30s | ₱%-8.2f | %8d | %-8d |\n", itemName, itemPrice, itemQuantity, itemCalories);
+                System.out.printf("| %-30s | ₱%-8.2f | %8d | %-8d |\n", itemName, itemPrice, itemQuantity,
+                        itemCalories);
             }
 
             // Display the table footer
@@ -844,14 +855,15 @@ public class VendingMachine {
             System.out.println("Total Calories: " + totalCalories);
         }
     }
-    
+
     /**
-     * Performs the purchase of an item from the selected slot in the vending machine.
+     * Performs the purchase of an item from the selected slot in the vending
+     * machine.
      * Dispenses the item and provides change if necessary.
      *
-     * @param selectedSlot the slot number of the item to be purchased.
+     * @param selectedSlot   the slot number of the item to be purchased.
      * @param insertedAmount The amount of money inserted by the user.
-     * @param changeAmount The amount of change to be returned to the user.
+     * @param changeAmount   The amount of change to be returned to the user.
      */
     public void purchaseItem(int selectedSlot, double insertedAmount, double changeAmount) {
         // Check if the selected slot is within a valid range
@@ -859,7 +871,7 @@ public class VendingMachine {
             System.out.println("Invalid slot number. Please choose a valid slot.");
             return;
         }
-        
+
         // Get the selected slot from the list of slots
         Slot slot = slots.get(selectedSlot - 1);
 
@@ -887,40 +899,39 @@ public class VendingMachine {
             return;
         }
 
-        
-    // Check if there are sufficient funds to dispense change
-    if (changeAmount <= totalValue) {
-        // Dispense the change using denominations
-        denomination.dispenseChange(changeAmount);
-        // Deduct the change amount from the totalValue
-        denomination.deductAmount(changeAmount);
-        
-        // Decrease the quantity of the purchased item
-        item.deductQuantity(1);
+        // Check if there are sufficient funds to dispense change
+        if (changeAmount <= totalValue) {
+            // Dispense the change using denominations
+            denomination.dispenseChange(changeAmount);
+            // Deduct the change amount from the totalValue
+            denomination.deductAmount(changeAmount);
 
-        // Subtract the price of the item from the inserted amount
-        denomination.subtractAmount(itemPrice);
-        
-        // Update the currentFunds after the purchase (add the itemPrice)
-        totalValue += itemPrice;
+            // Decrease the quantity of the purchased item
+            item.deductQuantity(1);
 
-        // Dispense the item
-        System.out.println("\nThank you for your purchase.");
-        System.out.println("Dispensing item: " + item.getItemName());
+            // Subtract the price of the item from the inserted amount
+            denomination.subtractAmount(itemPrice);
 
-        addTransactionEntry(item.getItemName(), itemPrice, insertedAmount, changeAmount);
-    } else {
-        System.out.println("Sorry, the vending machine doesn't have enough change. Please use exact payment.");
+            // Update the currentFunds after the purchase (add the itemPrice)
+            totalValue += itemPrice;
+
+            // Dispense the item
+            System.out.println("\nThank you for your purchase.");
+            System.out.println("Dispensing item: " + item.getItemName());
+
+            addTransactionEntry(item.getItemName(), itemPrice, insertedAmount, changeAmount);
+        } else {
+            System.out.println("Sorry, the vending machine doesn't have enough change. Please use exact payment.");
+        }
     }
-}
-    
+
     /**
      * Performs the purchase of a package from the special vending machine.
      * Dispenses the items in the package and provides change if necessary.
      *
      * @param packageToPurchase The SpecialVendingMachine package to be purchased.
-     * @param insertedAmount The amount of money inserted by the user.
-     * @param changeAmount The amount of change to be returned to the user.
+     * @param insertedAmount    The amount of money inserted by the user.
+     * @param changeAmount      The amount of change to be returned to the user.
      */
     public void purchasePackage(SpecialVendingMachine packageToPurchase, double insertedAmount, double changeAmount) {
         // Get the package items
@@ -977,8 +988,10 @@ public class VendingMachine {
      * Purchase a customized package and process the transaction.
      *
      * @param customizedPackage The customized package to be purchased.
-     * @param insertedAmount The amount of money inserted by the user for the purchase.
-     * @param changeAmount The change amount to be provided to the user after the purchase.
+     * @param insertedAmount    The amount of money inserted by the user for the
+     *                          purchase.
+     * @param changeAmount      The change amount to be provided to the user after
+     *                          the purchase.
      */
     public void purchasePackage(CustomizedPackage customizedPackage, double insertedAmount, double changeAmount) {
         // Get the package items
@@ -1046,12 +1059,14 @@ public class VendingMachine {
 
     /**
      * Updates the sales information for an item in the vending machine.
-     * This method searches for the item with the given item name in the slots of the vending machine
+     * This method searches for the item with the given item name in the slots of
+     * the vending machine
      * and updates its quantity sold and total amount based on the provided values.
      *
-     * @param itemName The name of the item for which to update the sales information.
+     * @param itemName     The name of the item for which to update the sales
+     *                     information.
      * @param quantitySold The new quantity sold value to set for the item.
-     * @param totalAmount The new total amount value to set for the item.
+     * @param totalAmount  The new total amount value to set for the item.
      */
     private void updateItemSales(String itemName, int quantitySold, double totalAmount) {
         for (Slot slot : slots) {
@@ -1065,9 +1080,10 @@ public class VendingMachine {
             }
         }
     }
-   
+
     /**
-     * Displays the slot menu under restock slot [one of the the maintenance feature].
+     * Displays the slot menu under restock slot [one of the the maintenance
+     * feature].
      */
     public void slotMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -1096,16 +1112,16 @@ public class VendingMachine {
     }
 
     /**
-      * Prompts the user to add an item to a slot.
-      */
-      public void addItemToSlot() {
+     * Prompts the user to add an item to a slot.
+     */
+    public void addItemToSlot() {
         Scanner scanner = new Scanner(System.in);
-    
+
         displayRVMProducts();
         System.out.print("\nEnter the slot number: ");
         int slotNumber = scanner.nextInt();
         scanner.nextLine(); // Consume newline character after reading the slot number
-    
+
         // Find the slot with the specified slot number
         Slot foundSlot = null;
         for (Slot slot : slots) {
@@ -1114,38 +1130,38 @@ public class VendingMachine {
                 break;
             }
         }
-    
+
         if (foundSlot != null) {
             ArrayList<Item> items = foundSlot.getItems();
-    
+
             // Prompt user for the item name
             System.out.print("\nEnter the item name: ");
             String itemName = scanner.nextLine();
-    
+
             // Prompt user for the price
             System.out.print("Enter the price: ");
             double price = scanner.nextDouble();
             scanner.nextLine(); // Consume newline character
-    
+
             // Initialize the quantity to 0
             int itemQuantity = 0;
-    
+
             // Prompt user to add at least 10 items
             while (itemQuantity < 10) {
                 System.out.print("Enter the quantity (minimum 10): ");
                 itemQuantity = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
-    
+
                 if (itemQuantity < 10) {
                     System.out.println("Error: Minimum quantity should be 10.");
                 }
             }
-    
+
             // Prompt user for the calories
             System.out.print("Enter the calories: ");
             int itemCalories = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
-    
+
             Item item = new Item(itemName, price, itemQuantity, itemCalories);
             item.setInitialQuantity(itemQuantity); // Set the initial quantity
             items.add(item);
@@ -1153,7 +1169,7 @@ public class VendingMachine {
 
             System.out.println("\n" + itemName + " has been added to slot " + slotNumber);
             displayRVMProducts();
-    
+
             // Ask if the user wants to add another item
             System.out.print("\nDo you want to add another item to this slot? (yes/no): ");
             String response = scanner.nextLine();
@@ -1165,7 +1181,7 @@ public class VendingMachine {
         } else {
             System.out.println("Slot number not found.");
         }
-    } 
+    }
 
     /**
      * Restocks the items in a vending machine slot.
@@ -1255,86 +1271,87 @@ public class VendingMachine {
     public void collectMoney() {
         double collectedAmount = totalValue;
         System.out.println("Collecting money from the vending machine: ₱" + collectedAmount);
-    
+
         // Reset the currentFunds to 0
         totalValue = 0.0;
     }
-    
+
     /**
      * Replenishes money in the vending machine
      */
     public void replenishMoney() {
         Scanner scanner = new Scanner(System.in);
-    
+
         System.out.println("Replenish Money");
         System.out.println("━━━━━━━━━━━━━━━━");
-    
+
         // Prompt the user to enter the number of ₱1 coins to add
         System.out.print("Enter the number of ₱1 coins to add: ");
         int add1Coin = scanner.nextInt();
         denominationsMap.put(1.0, denominationsMap.getOrDefault(1.0, 0) + add1Coin);
         totalValue += add1Coin * 1.0;
-    
+
         // Prompt the user to enter the number of ₱5 coins to add
         System.out.print("Enter the number of ₱5 coins to add: ");
         int add5Coin = scanner.nextInt();
         denominationsMap.put(5.0, denominationsMap.getOrDefault(5.0, 0) + add5Coin);
         totalValue += add5Coin * 5.0;
-    
+
         // Prompt the user to enter the number of ₱10 coins to add
         System.out.print("Enter the number of ₱10 coins to add: ");
         int add10Coin = scanner.nextInt();
         denominationsMap.put(10.0, denominationsMap.getOrDefault(10.0, 0) + add10Coin);
         totalValue += add10Coin * 10.0;
-    
+
         // Prompt the user to enter the number of ₱20 coins to add
         System.out.print("Enter the number of ₱20 coins to add: ");
         int add20Coin = scanner.nextInt();
         denominationsMap.put(20.0, denominationsMap.getOrDefault(20.0, 0) + add20Coin);
         totalValue += add20Coin * 20.0;
-    
+
         // Prompt the user to enter the number of ₱20 bills to add
         System.out.print("Enter the number of ₱20 bills to add: ");
         int add20Bill = scanner.nextInt();
         denominationsMap.put(200.0, denominationsMap.getOrDefault(200.0, 0) + add20Bill);
         totalValue += add20Bill * 200.0;
-    
+
         // Prompt the user to enter the number of ₱50 bills to add
         System.out.print("Enter the number of ₱50 bills to add: ");
         int add50Bill = scanner.nextInt();
         denominationsMap.put(50.0, denominationsMap.getOrDefault(50.0, 0) + add50Bill);
         totalValue += add50Bill * 50.0;
-    
+
         // Prompt the user to enter the number of ₱100 bills to add
         System.out.print("Enter the number of ₱100 bills to add: ");
         int add100Bill = scanner.nextInt();
         denominationsMap.put(100.0, denominationsMap.getOrDefault(100.0, 0) + add100Bill);
         totalValue += add100Bill * 100.0;
-    
+
         // Prompt the user to enter the number of ₱200 bills to add
         System.out.print("Enter the number of ₱200 bills to add: ");
         int add200Bill = scanner.nextInt();
         denominationsMap.put(200.0, denominationsMap.getOrDefault(200.0, 0) + add200Bill);
         totalValue += add200Bill * 200.0;
-    
+
         // Prompt the user to enter the number of ₱500 bills to add
         System.out.print("Enter the number of ₱500 bills to add: ");
         int add500Bill = scanner.nextInt();
         denominationsMap.put(500.0, denominationsMap.getOrDefault(500.0, 0) + add500Bill);
         totalValue += add500Bill * 500.0;
-    
+
         // Prompt the user to enter the number of ₱1000 bills to add
         System.out.print("Enter the number of ₱1000 bills to add: ");
         int add1000Bill = scanner.nextInt();
         denominationsMap.put(1000.0, denominationsMap.getOrDefault(1000.0, 0) + add1000Bill);
         totalValue += add1000Bill * 1000.0;
-    
+
         System.out.println("\nMoney replenished successfully!");
         displayDenominations();
     }
 
     /**
-     * Displays the denominations and their respective amounts that have been replenished in the vending machine.
+     * Displays the denominations and their respective amounts that have been
+     * replenished in the vending machine.
      */
     public void displayDenominations() {
         System.out.println("\n┏━━━━━━━━━━ REPLENISHED MONEY ━━━━━┓");
@@ -1353,7 +1370,8 @@ public class VendingMachine {
     }
 
     /**
-     * Getter for item names involved in the transaction 
+     * Getter for item names involved in the transaction
+     * 
      * @return itemNames the item names transacted in the vending machine
      */
     public List<String> getItemNames() {
@@ -1361,7 +1379,8 @@ public class VendingMachine {
     }
 
     /**
-     * Getter for item prices involved in the transaction 
+     * Getter for item prices involved in the transaction
+     * 
      * @return itemPrices the item prices transacted in the vending machine
      */
     public List<Double> getItemPrices() {
@@ -1369,7 +1388,8 @@ public class VendingMachine {
     }
 
     /**
-     * Getter for inserted amounts involved in the transaction 
+     * Getter for inserted amounts involved in the transaction
+     * 
      * @return insertedAmounts the insertedAmounts transacted in the vending machine
      */
     public List<Double> getInsertedAmounts() {
@@ -1377,7 +1397,8 @@ public class VendingMachine {
     }
 
     /**
-     * Getter for amount of changes involved in the transaction 
+     * Getter for amount of changes involved in the transaction
+     * 
      * @return changeAmounts the amount of change in the vending machine
      */
     public List<Double> getChangeAmounts() {
@@ -1389,8 +1410,10 @@ public class VendingMachine {
      *
      * @param itemName       The name of the item involved in the transaction.
      * @param itemPrice      The price of the item involved in the transaction.
-     * @param insertedAmount The amount of money inserted by the customer for the transaction.
-     * @param changeAmount   The change amount returned to the customer after the transaction.
+     * @param insertedAmount The amount of money inserted by the customer for the
+     *                       transaction.
+     * @param changeAmount   The change amount returned to the customer after the
+     *                       transaction.
      */
     public void addTransactionEntry(String itemName, double itemPrice, double insertedAmount, double changeAmount) {
         itemNames.add(itemName);
@@ -1409,49 +1432,52 @@ public class VendingMachine {
         System.out.println("-------------------------------------------------------------------------------------");
 
         for (int i = 0; i < itemNames.size(); i++) {
-            System.out.printf("%-20s\t%.2f\t\t%.2f\t\t\t%.2f%n", itemNames.get(i), itemPrices.get(i), insertedAmounts.get(i), changeAmounts.get(i));
+            System.out.printf("%-20s\t%.2f\t\t%.2f\t\t\t%.2f%n", itemNames.get(i), itemPrices.get(i),
+                    insertedAmounts.get(i), changeAmounts.get(i));
         }
 
         System.out.println("------------------------------------------------------------------------------------");
     }
 
     /**
-     * Displays a summary of items sold along with their corresponding quantities and total amounts.
+     * Displays a summary of items sold along with their corresponding quantities
+     * and total amounts.
      */
     public void displayItemsSold() {
-        System.out.println("*----------------------------------------------------------------------*");       
+        System.out.println("*----------------------------------------------------------------------*");
         System.out.println("|                       ITEMS SOLD SUMMARY                             |");
         System.out.println("*----------------------------------------------------------------------*");
         System.out.println("Item Name\t\tQuantity Sold\t\tTotal Amount");
         System.out.println("------------------------------------------------------------------------");
-    
+
         boolean noItemsSold = true; // A flag to track if no items are sold
-    
+
         for (Slot slot : slots) {
             ArrayList<Item> items = slot.getItems();
-            
+
             for (Item item : items) {
                 String itemName = item.getItemName();
                 int quantitySold = getQuantitySold(itemName);
                 double totalAmount = getTotalAmount(itemName);
-    
+
                 if (quantitySold > 0) {
                     System.out.printf("%-20s\t%d\t\t\t%.2f%n", itemName, quantitySold, totalAmount);
                     noItemsSold = false; // There's at least one item sold
                 }
             }
         }
-    
+
         if (noItemsSold) {
             System.out.println("No items sold yet.");
         }
-    
+
         System.out.println("------------------------------------------------------------------------");
     }
 
     /**
      * Displays the current available funds in the vending machine.
-     * The method prints the total value of funds currently available in the vending machine.
+     * The method prints the total value of funds currently available in the vending
+     * machine.
      */
     public void displayCurrentFunds() {
         System.out.println("\nCurrent Funds: ₱" + totalValue);
@@ -1460,7 +1486,8 @@ public class VendingMachine {
     /**
      * Retrieves the quantity of items sold for a specific item name.
      *
-     * @param itemName The name of the item for which the quantity sold is to be retrieved.
+     * @param itemName The name of the item for which the quantity sold is to be
+     *                 retrieved.
      * @return The quantity of the specified item sold.
      */
     public int getQuantitySold(String itemName) {
@@ -1478,15 +1505,18 @@ public class VendingMachine {
     /**
      * Retrieves the total amount generated from selling a specific item.
      *
-     * @param itemName The name of the item for which the total amount is to be retrieved.
+     * @param itemName The name of the item for which the total amount is to be
+     *                 retrieved.
      * @return The total amount generated from selling the specified item.
      */
     public double getTotalAmount(String itemName) {
         double totalAmount = 0.0;
 
-        // Iterate through the list of recorded item names and their corresponding prices
+        // Iterate through the list of recorded item names and their corresponding
+        // prices
         for (int i = 0; i < itemNames.size(); i++) {
-            // If the item name matches the specified item name, add its price to the totalAmount
+            // If the item name matches the specified item name, add its price to the
+            // totalAmount
             if (itemNames.get(i).equals(itemName)) {
                 totalAmount += itemPrices.get(i);
             }
@@ -1499,7 +1529,8 @@ public class VendingMachine {
      * Checks if a specific slot in the RegularVendingMachine is empty.
      *
      * @param slotNumber The slot number to be checked for emptiness.
-     * @return {@code true} if the specified slot is empty; otherwise, {@code false}.
+     * @return {@code true} if the specified slot is empty; otherwise,
+     *         {@code false}.
      */
     public boolean isSlotEmpty(int slotNumber) {
         for (Slot slot : slots) {

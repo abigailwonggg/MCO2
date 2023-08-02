@@ -52,6 +52,10 @@ public class Denomination {
         return instance;
     }
 
+    /**
+     * deduct the change mount from the total value 
+     * @param amount is the value of change amount
+     */
     public void deductAmount(double amount) {
         totalValue -= amount;
     }
@@ -265,10 +269,10 @@ public class Denomination {
         this.bill1000 = bill1000;
     }
 
-       /**
+    /**
      * Computes the total amount of money represented by the given denominations object
      *
-     * @param denominations The denominations object representing the quantities of different coins and bills.
+     * @param denomination The denominations object representing the quantities of different coins and bills.
      * @return The total amount of money computed from the denominations.
      */
     public double computeTotal(Denomination denomination) {
@@ -286,9 +290,9 @@ public class Denomination {
         return totalMoney;
     }
 
-
     /**
      * Prompts the user to insert ₱1 coins into the vending machine
+     * @param coin1Count the value of 1 peso coin inserted
      */
     public void insertCoin1(int coin1Count) {
         // Calculate the value of the inserted coins
@@ -305,6 +309,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱5 coins into the vending machine
+     * @param coin5Count the value of 5 pesos coins inserted
      */
     public void insertCoin5(int coin5Count) {
         // Calculate the value of the inserted coins
@@ -320,14 +325,15 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱10 coins into the vending machine
+     * @param coin10Count the value of inserted 10 pesos coins
      */
     public void insertCoin10(int coin10Count) {
         // Calculate the value of the inserted coins
-        double coint10Value = 10.0 * coin10Count;
+        double coin10Value = 10.0 * coin10Count;
     
         // Update the coin 10 count and totalValue
         denominationsMap.put(5.0, denominationsMap.getOrDefault(10.0, 0) + coin10Count);
-        totalValue += coint10Value;
+        totalValue += coin10Value;
     
         System.out.println("You inserted " + coin10Count + " ₱10 coins");
         System.out.println("Total Value: ₱" + totalValue);
@@ -335,6 +341,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱20 coins into the vending machine
+     * @param coin20Count the value of inserted 20 pesoscoins
      */
     public void insertCoin20(int coin20Count) {
         // Calculate the value of the inserted coins
@@ -350,6 +357,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱20 bills into the vending machine
+     * @param bill20Count the value of 20 pesoss bill inserted 
      */
     public void insertBill20(int bill20Count) {
         // Calculate the value of the inserted bills
@@ -365,6 +373,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱50 bills into the vending machine
+     * @param bill50Count the value of inserted 50 pesos bills
      */
     public void insertBill50(int bill50Count) {
         // Calculate the value of the inserted bills
@@ -380,6 +389,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱100 bills into the vending machine
+     * @param bill100Count the value of isnerted 100 pesos bills 
      */
     public void insertBill100(int bill100Count) {
         // Calculate the value of the inserted bills
@@ -394,7 +404,8 @@ public class Denomination {
     }
 
     /**
-     * Prompts the user to insert ₱200 bills into the vending machine
+     * Prompts the user to insert ₱200 bills into the vending machin
+     * @param bill200Count the value of inserted 200 pesos bills
      */
     public void insertBill200(int bill200Count) {
         // Calculate the value of the inserted bill
@@ -410,6 +421,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱500 bills into the vending machine
+     * @param bill500Count the value of inserted 500 pesos bills
      */
     public void insertBill500(int bill500Count) {
         // Calculate the value of the inserted bills
@@ -425,6 +437,7 @@ public class Denomination {
 
     /**
      * Prompts the user to insert ₱1000 bills into the vending machine
+     * @param bill1000Count the value of 1000 pesos bills inserted
      */
     public void insertBill1000(int bill1000Count) {
         // Calculate the value of the inserted bills
