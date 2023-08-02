@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +17,8 @@ public class Main {
                     vendingMachine.createVendingMachine();
                     break;
                 case 2:
-                    vendingMachine.testVendingMachine();
+                    List<Item> vendingItems = new ArrayList<>();
+                    vendingMachine.testVendingMachine(vendingItems);
                     break;
                 case 3:
                     exit();
@@ -30,7 +33,6 @@ public class Main {
     
     public static void printMainMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║            MAIN MENU             ║     ║");
@@ -45,11 +47,9 @@ public class Main {
 
     public static void exit() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
-        System.out.println("║             Thank you for using              ║");
-        System.out.println("║        the Seoul Bites Vending Machine!      ║");
-        System.out.println("║              Have a nice day!                ║");
+        System.out.println("║              Thank you for using             ║");
+        System.out.println("║         Seoul Bites Vending Machine!         ║");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("╚══════════════════════════════════════════════╝");
     }

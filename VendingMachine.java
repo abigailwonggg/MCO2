@@ -8,16 +8,18 @@ import java.util.Scanner;
  * The VendingMachine class represents the vending machine created
  */
 public class VendingMachine {
-    private List<Slot> slots;
+    protected List<Slot> slots;
     private Denomination denomination;
     private List<String> itemNames;
     private List<Double> itemPrices;
     private List<Double> insertedAmounts;
     private List<Double> changeAmounts;
     private Map<Double, Integer> denominationsMap;
+    private List<SpecialVendingMachine> specialVendingMachines;
+    private int numSlots;
     private double totalValue = 0.0;
- 
-
+    private boolean paymentFinished = false;
+    
     /**
      * Constructor for VendingMachine class
      */
@@ -28,8 +30,8 @@ public class VendingMachine {
         itemPrices = new ArrayList<>();
         insertedAmounts = new ArrayList<>();
         changeAmounts = new ArrayList<>();
-        denominationsMap = new HashMap<>(); // Initialize denominationsMap
-
+        denominationsMap = new HashMap<>(); // Initialize denominationsMap       
+        specialVendingMachines = new ArrayList<>();
     }
        
     /**
@@ -37,7 +39,6 @@ public class VendingMachine {
      */
     public void displayMainMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║            MAIN MENU             ║     ║");
@@ -55,7 +56,6 @@ public class VendingMachine {
      */
     public void displayCreateVendingMachineMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║  CHOOSE TYPE OF VENDING MACHINE  ║     ║");
@@ -73,7 +73,6 @@ public class VendingMachine {
      */
     public void displayTestVendingMachineMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║      TEST A VENDING MACHINE      ║     ║");
@@ -91,7 +90,6 @@ public class VendingMachine {
      */
     public void displayTestFeaturesVM() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║    TEST VENDING MACHINE FEATURES ║     ║");
@@ -103,13 +101,29 @@ public class VendingMachine {
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("╚══════════════════════════════════════════════╝");
     }
-
-   /**
+    
+    /**
+     * Prints the menu for testing vending machine features.
+     */
+    public void displayPurchaseMenu() {
+        System.out.println("\n╔══════════════════════════════════════════════╗");
+        System.out.println("║ ◍                                          ◍ ║");
+        System.out.println("║     ╓──────────────────────────────────╖     ║");
+        System.out.println("║     ║    TEST VENDING MACHINE FEATURES ║     ║");
+        System.out.println("║     ╟──────────────────────────────────╢     ║");
+        System.out.println("║     ║  ⦾ (1) Regular Vending Machine   ║     ║");
+        System.out.println("║     ║  ⦾ (2) Special Vending Machine   ║     ║");
+        System.out.println("║     ║  ⦾ (3) Exit VM Features Test     ║     ║");
+        System.out.println("║     ╙──────────────────────────────────╜     ║");
+        System.out.println("║ ◍                                          ◍ ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
+    }
+    
+    /**
      * Displays the menu for payment
      */ 
     public void displayPaymentMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║       PLEASE INSERT MONEY        ║     ║");
@@ -127,7 +141,6 @@ public class VendingMachine {
      */
      public void displayCoinsMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║       PLEASE INSERT MONEY        ║     ║");
@@ -147,7 +160,6 @@ public class VendingMachine {
      */
      public void displayBillMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║       PLEASE INSERT BILL         ║     ║");
@@ -169,7 +181,6 @@ public class VendingMachine {
      */
     public void displayMaintenanceFeaturesMenu() {
         System.out.println("\n╔═══════════════════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ═════════════════════╣");
         System.out.println("║ ◍                                                       ◍ ║");
         System.out.println("║     ╓───────────────────────────────────────────────╖     ║");
         System.out.println("║     ║             MAINTENANCE FEATURES              ║     ║");
@@ -187,28 +198,595 @@ public class VendingMachine {
         System.out.println("║ ◍                                                       ◍ ║");
         System.out.println("╚═══════════════════════════════════════════════════════════╝");
     }
+
     /**
      * Displays the menu for payment
      */ 
     public void displaySlotMenu() {
         System.out.println("\n╔══════════════════════════════════════════════╗");
-        System.out.println("╠═════════ SEOUL BITES VENDING MACHINE ════════╣");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("║     ╓──────────────────────────────────╖     ║");
         System.out.println("║     ║    WHAT WOULD YOU LIKE TO DO?    ║     ║");
         System.out.println("║     ╟──────────────────────────────────╢     ║");
-        System.out.println("║     ║  ⦾ (1) Add Slot                  ║     ║");
+        System.out.println("║     ║  ⦾ (1) Add Item                  ║     ║");
         System.out.println("║     ║  ⦾ (2) Edit Slot                 ║     ║");
         System.out.println("║     ║  ⦾ (3) Go back                   ║     ║");
         System.out.println("║     ╙──────────────────────────────────╜     ║");
         System.out.println("║ ◍                                          ◍ ║");
         System.out.println("╚══════════════════════════════════════════════╝");
     }
+
+    /**
+     * Creates a vending machine based on user choice.
+     */
+    public void createVendingMachine() {
+        displayCreateVendingMachineMenu();
+        
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nEnter your choice: ");
+        int vendingMachineType = scanner.nextInt();
+
+        switch(vendingMachineType){
+            case 1: 
+                System.out.print("\nEnter the number of slots (minimum 8 | maximum 12): ");
+                numSlots = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+                createRegularVendingMachine(numSlots);  
+                break;
+            case 2:  
+                createSpecialVendingMachine();
+                break;
+            case 3: 
+                break;
+            default:
+                System.out.println("Invalid choice.");  
+                break;
+        }
+    }
+
+    /**
+     * Creates a regular vending machine.
+     * @param numSlots the number of slots in the the vending machine
+     */
+    public void createRegularVendingMachine(int numSlots) {
+        // Validate the number of slots
+        if (numSlots < 8 || numSlots > 12) {
+            System.out.println("Error: Number of slots should be between 8 to 12.");
+            return; // Exit the method if the number of slots is invalid
+        }
+
+        // Initialize slots in the vending machine based on user input
+        for (int i = 1; i <= numSlots; i++) {
+            Slot slot = new Slot(i, numSlots);
+            slots.add(slot);
+        }
+
+        System.out.println("\nRegular Vending Machine created successfully!");
+    }
+
+    /**
+     * Creates a special vending machine.
+     */
+    public void createSpecialVendingMachine() {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean createMorePackages = true;
+
+        while (createMorePackages) {
+            System.out.print("What is the name of the package: ");
+            String packageName = scanner.nextLine();
+
+            List<Item> packageItems = new ArrayList<>();
+            boolean addMoreItems = true;
+
+            while (addMoreItems) {
+                displayRVMProducts();
+                System.out.print("Will you add an item to the package from the list? (y/n): ");
+                char choice = scanner.next().charAt(0);
+                scanner.nextLine(); // Consume the newline character
+
+                if (Character.toLowerCase(choice) == 'y') {
+
+                    System.out.print("Enter the slot number of the item you want to add: ");
+                    int selectedSlot = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+    
+                    // Validate the selected slot
+                    if (selectedSlot < 1 || selectedSlot > slots.size()) {
+                        System.out.println("Invalid slot number. Please choose a valid slot.");
+                        continue;
+                    }
+    
+                    // Get the selected slot from the list of slots
+                    Slot slot = slots.get(selectedSlot - 1);
+    
+                    // Check if the selected slot is empty
+                    if (slot.isSlotEmpty()) {
+                        System.out.println("Selected slot is empty. Please choose another slot.");
+                        continue;
+                    }
+    
+                    // Get the item from the selected slot
+                    Item item = slot.getItem();
+    
+                    // Add the selected item to the package
+                    packageItems.add(item);                } else {
+                    // Ask for information to add a custom item to the package
+                    System.out.print("Enter the name of the item: ");
+                    String itemName = scanner.nextLine();
+
+                    System.out.print("Enter the price of item: ");
+                    double price = scanner.nextDouble();
+                    scanner.nextLine(); // Consume the newline character
+
+                    System.out.print("Enter the quantity: ");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+
+                    System.out.print("Enter the calorie count: ");
+                    int calories = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+
+                    // Create a custom item and add it to the package
+                    Item customItem = new Item(itemName, price, quantity, calories);
+                    packageItems.add(customItem);
+                }
+
+                System.out.print("Do you want to add more items to the package? (y/n): ");
+                char addMoreChoice = scanner.next().charAt(0);
+                scanner.nextLine(); // Consume the newline character
+
+                addMoreItems = Character.toLowerCase(addMoreChoice) == 'y';
+            }
+
+            System.out.print("Enter the price for the package: ₱");
+            double packagePrice = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
+            // Create the Special Vending Machine instance and set the package information
+            SpecialVendingMachine specialVendingMachine = new SpecialVendingMachine(packageName, packageItems, packagePrice);
+            specialVendingMachines.add(specialVendingMachine);
+
+            // Now you have the Special Vending Machine with the package information.
+            displaySpecialVendingMachines();
+
+            System.out.print("Do you want to create another package? (y/n): ");
+            char createMoreChoice = scanner.next().charAt(0);
+            scanner.nextLine(); // Consume the newline character
+
+            createMorePackages = Character.toLowerCase(createMoreChoice) == 'y';
+        }
+
+        System.out.println("Special vending machines creation completed.");
+    }
+
+    /**
+     * Performs the test operations of the vending machine.
+     * @param vendingItems The list of items available in the vending machine.
+     */
+    public void testVendingMachine(List<Item> vendingItems) {
+        Scanner scanner = new Scanner(System.in);
+
+        displayTestVendingMachineMenu();
+        System.out.print("\nEnter your choice: ");
+        int featureType = scanner.nextInt();
+
+        if (featureType == 1) {
+            performVendingMachineOperations();
+        } else if (featureType == 2) {
+            performMaintenanceFeatures();
+        }
+    }
+
+    /**
+     * Performs the vending machine operations based on the selected feature.
+     */
+    private void performVendingMachineOperations() {
+        Scanner scanner = new Scanner(System.in);
+        displayTestFeaturesVM();
+        System.out.print("\nEnter your choice: ");
+        int vendingMachineFeatures = scanner.nextInt();
+
+        switch (vendingMachineFeatures) {
+            case 1: // start test
+                performStartTestOperations();
+                break;
+            case 2: // end test
+                System.out.println("Ending the test.");
+                break;
+            case 3: // return to main menu
+                return;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+    }
+
+    /**
+     * Performs the operations for starting the test of the vending machine
+     */
+    private void performStartTestOperations() {
+        Scanner scanner = new Scanner(System.in);
+        boolean exitLoop = false;
+
+        displayPurchaseMenu();
+        System.out.print("Enter your choice: ");
+        int purchaseChoice = scanner.nextInt();
+
+        if (purchaseChoice == 1) {
+            displayRVMProducts();
+            displayCurrentFunds();
+            paymentFinished = false;
+            System.out.print("\nEnter the slot number: ");
+            int selectedSlot = scanner.nextInt();
+
+            while (!exitLoop) {
+                if (!paymentFinished) {
+                    performPaymentOperations();
+
+                    if (paymentFinished) {
+                        double insertedAmount = denomination.getTotalValue();
+                        double changeAmount = insertedAmount - slots.get(selectedSlot - 1).getItem().getItemPrice();
+                        // Purchase the item from the selected slot
+                        purchaseItem(selectedSlot, insertedAmount, changeAmount);
+                    }
+                } else {
+                    break;
+                }
+            }
+        } else if (purchaseChoice == 2) {
+            performPackagePurchase();
+        }
+    }
+
+    /**
+     * Performs the operations for purchasing a package in special vending machine
+     */
+    private void performPackagePurchase() {
+        Scanner scanner = new Scanner(System.in);
+        boolean exitLoop = false;
+
+        System.out.println("\n1. Purchase a Package");
+        System.out.println("2. Customize Your Own Package");
+        System.out.print("Enter your choice: ");
+        int packageChoice = scanner.nextInt();
+
+        if (packageChoice == 1) {
+            performSpecialVendingMachinePurchase();
+        } else if (packageChoice == 2) {
+            boolean paymentFinished = false;
+
+            while (!exitLoop) {
+                if (!paymentFinished) {
+                    performPaymentOperations();
+
+                    if (paymentFinished) {
+                        performCustomPackagePurchase();
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Performs the operations for purchasing a package from the special vending machine.
+     */
+    private void performSpecialVendingMachinePurchase() {
+        Scanner scanner = new Scanner(System.in);
+        boolean exitLoop = false;
+
+        displaySpecialVendingMachines();
+        displayCurrentFunds();
+        boolean SVMpaymentFinished = false;
+
+        while (!exitLoop) {
+            if (!SVMpaymentFinished) {
+                performPaymentOperations();
+
+                if (SVMpaymentFinished) {
+                    boolean selectPackage = true;
+                    while (selectPackage) {
+                        System.out.print("\nEnter the package name: ");
+                        scanner.nextLine(); // Consume the newline character left from the previous nextInt()
+                        String packageName = scanner.nextLine();
+
+                        // Find the selected package by name
+                        SpecialVendingMachine selectedPackage = null;
+                        for (SpecialVendingMachine packageMachine : specialVendingMachines) {
+                            if (packageMachine.getPackageName().equalsIgnoreCase(packageName)) {
+                                selectedPackage = packageMachine;
+                                break;
+                            }
+                        }
+
+                        if (selectedPackage == null) {
+                            System.out.println("Package not found. Please enter a valid package name.");
+                        } else {
+                            double insertedAmount = denomination.getTotalValue();
+                            double packagePrice = selectedPackage.getPackagePrice();
+                            double changeAmount = insertedAmount - packagePrice;
+
+                            // Purchase the package
+                            purchasePackage(selectedPackage, insertedAmount, changeAmount);
+
+                            selectPackage = false; // Exit the loop after purchasing the package
+                            displaySpecialVendingMachines(); // Update the displayed contents after the purchase
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Performs the operations for purchasing a customized package
+     */
+    private void performCustomPackagePurchase() {
+        Scanner scanner = new Scanner(System.in);
+        boolean exitLoop = false;
+        List<Item> selectedItems = new ArrayList<>();
+        double totalPrice = 0;
+        CustomizedPackage customizedPackage = new CustomizedPackage("Custom Package", 0, 1, 0);
+
+        while (!exitLoop) {
+            System.out.print("Enter the slot number of the item you want to add to the package (0 to finish): ");
+            int selectedSlot = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character left from the previous nextInt()
+
+            if (selectedSlot == 0) {
+                exitLoop = true;
+            } else if (selectedSlot < 1 || selectedSlot > slots.size()) {
+                System.out.println("Invalid slot number. Please choose a valid slot.");
+            } else {
+                Slot slot = slots.get(selectedSlot - 1);
+                if (slot.isSlotEmpty()) {
+                    System.out.println("Selected slot is empty. Please choose another slot.");
+                } else {
+                    Item selectedItem = slot.getItem();
+                    selectedItems.add(selectedItem);
+                    customizedPackage.addToPackage(selectedItem, selectedSlot); // Add the item with the correct slot number
+                    totalPrice += selectedItem.getItemPrice();
+                    System.out.println("Item '" + selectedItem.getItemName() + "' added to the package.");
+                }
+            }
+        }
+
+        // Display the customized package and total price
+        System.out.println("\nCustomized Package Contents:");
+        for (Item item : selectedItems) {
+            System.out.println("- " + item.getItemName() + " - $" + item.getItemPrice());
+        }
+        System.out.println("Total Price: " + totalPrice);
+
+        // Check if there is enough money inserted to purchase the customized package
+        if (totalPrice > totalValue) {
+            System.out.println("Insufficient funds. Please insert more money.");
+            return;
+        }
+
+        // Calculate the change to be provided
+        double changeAmount = totalValue - totalPrice;
+
+        // Purchase the customized package
+        purchasePackage(customizedPackage, totalValue, changeAmount);
+
+        // Update the currentFunds after the purchase
+        totalValue -= totalPrice;
+    }
+
+    /**
+     * Performs the payment operations for inserting coins or bills
+     */
+    private void performPaymentOperations() {
+        displayPaymentMenu();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nEnter your choice: ");
+        int choicePayment = scanner.nextInt();
+
+        switch (choicePayment) {
+            case 1:
+                performCoinsInsertion();
+                break;
+            case 2:
+                performBillsInsertion();
+                break;
+            case 3:
+                System.out.println("\nInserting money...");
+                paymentFinished = true;
+                break;
+            default:
+                System.out.println("\nInvalid choice. Please try again.");
+                break;
+        }
+    }
+
+    /**
+     * Performs the operations for inserting coins into the vending machine
+     */
+    private void performCoinsInsertion() {
+        displayCoinsMenu();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("\nEnter your choice: ");
+            int choiceCoin = scanner.nextInt();
+            switch (choiceCoin) {
+                case 1:
+                    System.out.print("Please input the number of ₱1 coins you want to insert: ");
+                    int coin1Count = scanner.nextInt();
+                    denomination.insertCoin1(coin1Count);
+                    break;
+                case 2:
+                    System.out.print("Please input the number of ₱5 coins you want to insert: ");
+                    int coin5Count = scanner.nextInt();
+                    denomination.insertCoin5(coin5Count);
+                    break;
+                case 3:
+                    System.out.print("Please input the number of ₱10 coins you want to insert: ");
+                    int coin10Count = scanner.nextInt();
+                    denomination.insertCoin10(coin10Count);
+                    break;
+                case 4:
+                    System.out.print("Please input the number of ₱20 coins you want to insert: ");
+                    int coin20Count = scanner.nextInt();
+                    denomination.insertCoin20(coin20Count);
+                    break;
+                case 5:
+                    System.out.println("Going back to the vending machine...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+            if (choiceCoin == 5) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Performs the operations for inserting bills into the vending machine
+     */
+    private void performBillsInsertion() {
+        displayBillMenu();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("\nEnter your choice: ");
+            int choiceBill = scanner.nextInt();
+            switch (choiceBill) {
+                case 1:
+                    System.out.print("Please input the number of ₱20 bills you want to insert: ");
+                    int bill20Count = scanner.nextInt();
+                    denomination.insertBill20(bill20Count);
+                    break;
+                case 2:
+                    System.out.print("Please input the number of ₱50 bills you want to insert: ");
+                    int bill50Count = scanner.nextInt();
+                    denomination.insertBill50(bill50Count);
+                    break;
+                case 3:
+                    System.out.print("Please input the number of ₱100 bills you want to insert: ");
+                    int bill100Count = scanner.nextInt();
+                    denomination.insertBill100(bill100Count);
+                    break;
+                case 4:
+                    System.out.print("Please input the number of ₱200 bills you want to insert: ");
+                    int bill200Count = scanner.nextInt();
+                    denomination.insertBill200(bill200Count);
+                    break;
+                case 5:
+                    System.out.print("Please input the number of ₱500 bills you want to insert: ");
+                    int bill500Count = scanner.nextInt();
+                    denomination.insertBill500(bill500Count);
+                    break;
+                case 6:
+                    System.out.print("Please input the number of ₱1000 bills you want to insert: ");
+                    int bill1000Count = scanner.nextInt();
+                    denomination.insertBill1000(bill1000Count);
+                    break;
+                case 7:
+                    System.out.println("Going back to the vending machine...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+            if (choiceBill == 7) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Performs the maintenance features of the vending machine
+     */
+    private void performMaintenanceFeatures() {
+        Scanner scanner = new Scanner(System.in);
+        displayMaintenanceFeaturesMenu();
+        System.out.print("\nEnter your choice: ");
+        int vendingMachineMaintenance = scanner.nextInt();
+
+        // Implement maintenance features
+        switch (vendingMachineMaintenance) {
+            case 1: // restock items
+                displayRVMProducts();
+                slotMenu();
+                break;
+            case 2: // change price for each item type
+                displayRVMProducts();
+                setItemPrice();
+                break;
+            case 3: // collect money from machine
+                collectMoney();
+                break;
+            case 4: // replenish money
+                replenishMoney();
+                break;
+            case 5: // print list of transactions
+                displayTransactions();
+                break;
+            case 6: // list quantity of items sold
+                displayItemsSold();
+                break;
+            case 7: // display starting inventory
+                displayStartInventory();
+                break;
+            case 8: // display last inventory
+                displayLastInventory();
+                return;
+            case 9: // Return to main menu
+                return;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+    }
+
+    /**
+     * Adds a slot to the vending machine.
+     *
+     * @param slot The slot to be added to the vending machine.
+     */
+    public void addSlot(Slot slot) {
+        slots.add(slot);
+    }
+
+    /**
+     * Retrieves the Slot object based on the specified slot number.
+     *
+     * @param slotNumber The slot number of the Slot object to be retrieved.
+     * @return The Slot object with the given slot number, or {@code null} if no matching slot is found.
+     */
+    public Slot getSlotByNumber(int slotNumber) {
+        for (Slot slot : slots) {
+            if (slot.getSlotNumber() == slotNumber) {
+                return slot;
+            }
+        }
+        return null; // Return null if slot with the given number is not found
+    }
+
+    /**
+     * Sets the number of slots
+     * @param numSlots the number of slots
+     */
+    public void setNumSlots(int numSlots) {
+        this.numSlots = numSlots;
+    }
+
+    /**
+     * Getter for slot list
+     * @return slots the slot number
+     */
+    public List<Slot> getSlots() {
+        return slots;
+    }
+
     /*
      *  Displays all products in regular vending machine
     */
     public void displayRVMProducts() {
-        System.out.println("\n┏━━━━━━━━━━━━━━━━━━━━━━━━ SEOUL BITES PRODUCTS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
         System.out.println("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫");
         System.out.printf("┃ %-5s ┃ %-30s ┃ %-9s ┃ %-8s ┃ %-8s ┃\n", "Slot", "Item Name", "Price", "Quantity", "Calories");
         System.out.println("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫");
@@ -230,16 +808,50 @@ public class VendingMachine {
     
         System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
     }
+
+    /**
+     * Displays the list of special vending machines.
+     */
+    public void displaySpecialVendingMachines() {
+        System.out.println("Special Vending Machines:");
+
+        for (SpecialVendingMachine specialVendingMachine : specialVendingMachines) {
+            System.out.println("-------------------------------------------------");
+            System.out.println("Package: " + specialVendingMachine.getPackageName() +
+                    ", Price: ₱" + specialVendingMachine.getPackagePrice());
+
+            // Display the table header
+            System.out.println("+-------------------------------+----------+--------------+---------+");
+            System.out.printf("| %-30s | %-9s | %-9s | %-9s |\n", "Item", "itemPrice", "itemQuantity", "itemCalories");
+            System.out.println("+-------------------------------+----------+--------------+---------+");
+
+            // Display each item in the package with its details
+            for (Item item : specialVendingMachine.getPackageItems()) {
+                String itemName = item.getItemName();
+                double itemPrice = item.getItemPrice();
+                int itemQuantity = item.getItemQuantity();
+                int itemCalories = item.getItemCalories();
+
+                // Format the row in the table
+                System.out.printf("| %-30s | ₱%-8.2f | %8d | %-8d |\n", itemName, itemPrice, itemQuantity, itemCalories);
+            }
+
+            // Display the table footer
+            System.out.println("+-------------------------------+----------+--------------+---------+");
+
+            // Display the total calories of the whole package
+            int totalCalories = specialVendingMachine.getTotalCalories();
+            System.out.println("Total Calories: " + totalCalories);
+        }
+    }
     
-
-
     /**
      * Performs the purchase of an item from the selected slot in the vending machine.
      * Dispenses the item and provides change if necessary.
      *
-     * @param selectedSlot The slot number of the item to be purchased.
-     * @param insertedAmount
-     * @param changeAmount
+     * @param selectedSlot the slot number of the item to be purchased.
+     * @param insertedAmount The amount of money inserted by the user.
+     * @param changeAmount The amount of change to be returned to the user.
      */
     public void purchaseItem(int selectedSlot, double insertedAmount, double changeAmount) {
         // Check if the selected slot is within a valid range
@@ -275,27 +887,14 @@ public class VendingMachine {
             return;
         }
 
-        if (insertedAmount > itemPrice) {
-            double remainingChange = insertedAmount - itemPrice;
-            System.out.println("\nThank you for your purchase. Your change: ₱" + changeAmount);
-           
-            // Check if there are sufficient funds to dispense change
-            if (remainingChange <= totalValue) {
-                // Dispense the change using denominations
-                denomination.dispenseChange(remainingChange);
-                // Deduct the change amount from the totalValue
-                denomination.deductAmount(remainingChange);
-            } else {
-                System.out.println("Sorry, the vending machine doesn't have enough change. Please use exact payment.");
-                return;
-            }
         
-            changeAmount = remainingChange;
-
-        } else {
-            System.out.println("Thank you for your purchase.");
-        }
-
+    // Check if there are sufficient funds to dispense change
+    if (changeAmount <= totalValue) {
+        // Dispense the change using denominations
+        denomination.dispenseChange(changeAmount);
+        // Deduct the change amount from the totalValue
+        denomination.deductAmount(changeAmount);
+        
         // Decrease the quantity of the purchased item
         item.deductQuantity(1);
 
@@ -306,11 +905,170 @@ public class VendingMachine {
         totalValue += itemPrice;
 
         // Dispense the item
-        System.out.println("\nDispensing item: " + item.getItemName());
+        System.out.println("\nThank you for your purchase.");
+        System.out.println("Dispensing item: " + item.getItemName());
 
         addTransactionEntry(item.getItemName(), itemPrice, insertedAmount, changeAmount);
+    } else {
+        System.out.println("Sorry, the vending machine doesn't have enough change. Please use exact payment.");
+    }
+}
+    
+    /**
+     * Performs the purchase of a package from the special vending machine.
+     * Dispenses the items in the package and provides change if necessary.
+     *
+     * @param packageToPurchase The SpecialVendingMachine package to be purchased.
+     * @param insertedAmount The amount of money inserted by the user.
+     * @param changeAmount The amount of change to be returned to the user.
+     */
+    public void purchasePackage(SpecialVendingMachine packageToPurchase, double insertedAmount, double changeAmount) {
+        // Get the package items
+        List<Item> packageItems = packageToPurchase.getPackageItems();
+
+        // Check if the package is available
+        if (packageItems.isEmpty()) {
+            System.out.println("Selected package is empty. Please choose another package.");
+            return;
+        }
+
+        // Check if the inserted amount is sufficient to purchase the package
+        double packagePrice = packageToPurchase.getPackagePrice();
+        if (insertedAmount < packagePrice) {
+            System.out.println("Insufficient funds. Please insert more money.");
+            return;
+        }
+
+        // Calculate the remaining change after purchasing the package
+        double remainingChange = insertedAmount - packagePrice;
+
+        System.out.println("\nThank you for your purchase. Your change: ₱" + remainingChange);
+
+        // Check if there are sufficient funds to dispense change
+        if (remainingChange <= totalValue) {
+            // Dispense the change using denominations
+            denomination.dispenseChange(remainingChange);
+            // Deduct the change amount from the totalValue
+            denomination.deductAmount(remainingChange);
+        } else {
+            System.out.println("Sorry, the vending machine doesn't have enough change. Please use exact payment.");
+            return;
+        }
+
+        // Dispense the items in the package
+        for (Item item : packageItems) {
+            String itemName = item.getItemName();
+            System.out.println("\nDispensing item from package: " + itemName);
+
+            // Decrease the quantity of the item
+            item.deductQuantity(1);
+        }
+
+        // Subtract the package price from the inserted amount
+        denomination.subtractAmount(packagePrice);
+
+        // Update the currentFunds after the purchase (add the itemPrice)
+        totalValue += packagePrice;
+
+        addTransactionEntry(packageToPurchase.getPackageName(), packagePrice, insertedAmount, changeAmount);
     }
 
+    /**
+     * Purchase a customized package and process the transaction.
+     *
+     * @param customizedPackage The customized package to be purchased.
+     * @param insertedAmount The amount of money inserted by the user for the purchase.
+     * @param changeAmount The change amount to be provided to the user after the purchase.
+     */
+    public void purchasePackage(CustomizedPackage customizedPackage, double insertedAmount, double changeAmount) {
+        // Get the package items
+        List<Item> packageItems = customizedPackage.getPackageItems();
+
+        // Check if the package is available
+        if (packageItems.isEmpty()) {
+            System.out.println("Selected package is empty. Please choose another package.");
+            return;
+        }
+
+        // Calculate the total price of the customized package
+        double totalPrice = 0;
+        for (Item item : packageItems) {
+            totalPrice += item.getItemPrice();
+        }
+
+        // Check if the inserted amount is sufficient to purchase the package
+        if (insertedAmount < totalPrice) {
+            System.out.println("Insufficient funds. Please insert more money.");
+            return;
+        }
+
+        // Calculate the remaining change after purchasing the package
+        double remainingChange = insertedAmount - totalPrice;
+
+        System.out.println("\nThank you for your purchase. Your change: ₱" + remainingChange);
+
+        // Check if there are sufficient funds to dispense change
+        if (remainingChange <= totalValue) {
+            // Dispense the change using denominations
+            denomination.dispenseChange(remainingChange);
+            // Deduct the change amount from the totalValue
+            denomination.deductAmount(remainingChange);
+        } else {
+            System.out.println("Sorry, the vending machine doesn't have enough change. Please use exact payment.");
+            return;
+        }
+
+        // Dispense the items in the package
+        for (Item item : packageItems) {
+            String itemName = item.getItemName();
+            System.out.println("\nDispensing item from package: " + itemName);
+
+            // Decrease the quantity of the item
+            item.deductQuantity(1);
+
+            // Update the quantity sold and total amount for the item
+            int quantitySold = getQuantitySold(itemName);
+            double totalAmount = getTotalAmount(itemName);
+            quantitySold++;
+            totalAmount += item.getItemPrice();
+            updateItemSales(itemName, quantitySold, totalAmount);
+        }
+
+        // Subtract the total price of the package from the inserted amount
+        denomination.subtractAmount(totalPrice);
+
+        // Update the currentFunds after the purchase (add the itemPrice)
+        totalValue += totalPrice;
+
+        // Add transaction entry
+        addTransactionEntry(customizedPackage.getItemName(), totalPrice, insertedAmount, changeAmount);
+    }
+
+    /**
+     * Updates the sales information for an item in the vending machine.
+     * This method searches for the item with the given item name in the slots of the vending machine
+     * and updates its quantity sold and total amount based on the provided values.
+     *
+     * @param itemName The name of the item for which to update the sales information.
+     * @param quantitySold The new quantity sold value to set for the item.
+     * @param totalAmount The new total amount value to set for the item.
+     */
+    private void updateItemSales(String itemName, int quantitySold, double totalAmount) {
+        for (Slot slot : slots) {
+            ArrayList<Item> items = slot.getItems();
+            for (Item item : items) {
+                if (item.getItemName().equals(itemName)) {
+                    item.setQuantitySold(quantitySold);
+                    item.setTotalAmount(totalAmount);
+                    break;
+                }
+            }
+        }
+    }
+   
+    /**
+     * Displays the slot menu under restock slot [one of the the maintenance feature].
+     */
     public void slotMenu() {
         Scanner scanner = new Scanner(System.in);
 
@@ -318,18 +1076,19 @@ public class VendingMachine {
         System.out.print("\nEnter your choice: ");
         int slotChoice = scanner.nextInt();
 
-        switch(slotChoice){
-            case 1: // add item 
+        switch (slotChoice) {
+            case 1:
                 addItemToSlot();
                 break;
 
-            case 2: // edit item 
+            case 2:
                 restockSlot();
                 break;
 
             case 3:
-                return;
-            
+                performMaintenanceFeatures();
+                break;
+
             default:
                 System.out.println("Invalid choice.");
                 break;
@@ -340,7 +1099,6 @@ public class VendingMachine {
       * Prompts the user to add an item to a slot.
       */
       public void addItemToSlot() {
-        // slots.clear();
         Scanner scanner = new Scanner(System.in);
     
         displayRVMProducts();
@@ -409,6 +1167,9 @@ public class VendingMachine {
         }
     } 
 
+    /**
+     * Restocks the items in a vending machine slot.
+     */
     public void restockSlot() {
         Scanner scanner = new Scanner(System.in);
 
@@ -425,6 +1186,7 @@ public class VendingMachine {
             }
         }
 
+        // If the slot is found, restock the items
         if (foundSlot != null) {
             ArrayList<Item> items = foundSlot.getItems();
 
@@ -442,8 +1204,8 @@ public class VendingMachine {
 
                 System.out.println(item.getItemName() + " quantity has been updated to " + item.getItemQuantity());
             }
-        } 
-        else {
+        } else {
+            // If the slot is not found
             System.out.println("Slot number not found.");
         }
     }
@@ -570,7 +1332,10 @@ public class VendingMachine {
         System.out.println("\nMoney replenished successfully!");
         displayDenominations();
     }
-    
+
+    /**
+     * Displays the denominations and their respective amounts that have been replenished in the vending machine.
+     */
     public void displayDenominations() {
         System.out.println("\n┏━━━━━━━━━━ REPLENISHED MONEY ━━━━━┓");
         System.out.println("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫");
@@ -587,6 +1352,46 @@ public class VendingMachine {
         System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
     }
 
+    /**
+     * Getter for item names involved in the transaction 
+     * @return itemNames the item names transacted in the vending machine
+     */
+    public List<String> getItemNames() {
+        return itemNames;
+    }
+
+    /**
+     * Getter for item prices involved in the transaction 
+     * @return itemPrices the item prices transacted in the vending machine
+     */
+    public List<Double> getItemPrices() {
+        return itemPrices;
+    }
+
+    /**
+     * Getter for inserted amounts involved in the transaction 
+     * @return insertedAmounts the insertedAmounts transacted in the vending machine
+     */
+    public List<Double> getInsertedAmounts() {
+        return insertedAmounts;
+    }
+
+    /**
+     * Getter for amount of changes involved in the transaction 
+     * @return changeAmounts the amount of change in the vending machine
+     */
+    public List<Double> getChangeAmounts() {
+        return changeAmounts;
+    }
+
+    /**
+     * Adds a transaction entry to record details of a vending machine transaction.
+     *
+     * @param itemName       The name of the item involved in the transaction.
+     * @param itemPrice      The price of the item involved in the transaction.
+     * @param insertedAmount The amount of money inserted by the customer for the transaction.
+     * @param changeAmount   The change amount returned to the customer after the transaction.
+     */
     public void addTransactionEntry(String itemName, double itemPrice, double insertedAmount, double changeAmount) {
         itemNames.add(itemName);
         itemPrices.add(itemPrice);
@@ -594,6 +1399,9 @@ public class VendingMachine {
         changeAmounts.add(changeAmount);
     }
 
+    /**
+     * Displays the recorded transactions with detailed information.
+     */
     public void displayTransactions() {
         System.out.println("Transactions:");
         System.out.println("-------------------------------------------------------------------------------------");
@@ -607,6 +1415,9 @@ public class VendingMachine {
         System.out.println("------------------------------------------------------------------------------------");
     }
 
+    /**
+     * Displays a summary of items sold along with their corresponding quantities and total amounts.
+     */
     public void displayItemsSold() {
         System.out.println("*----------------------------------------------------------------------*");       
         System.out.println("|                       ITEMS SOLD SUMMARY                             |");
@@ -637,11 +1448,22 @@ public class VendingMachine {
     
         System.out.println("------------------------------------------------------------------------");
     }
+
+    /**
+     * Displays the current available funds in the vending machine.
+     * The method prints the total value of funds currently available in the vending machine.
+     */
     public void displayCurrentFunds() {
         System.out.println("\nCurrent Funds: ₱" + totalValue);
     }
 
-    private int getQuantitySold(String itemName) {
+    /**
+     * Retrieves the quantity of items sold for a specific item name.
+     *
+     * @param itemName The name of the item for which the quantity sold is to be retrieved.
+     * @return The quantity of the specified item sold.
+     */
+    public int getQuantitySold(String itemName) {
         int quantitySold = 0;
 
         for (String name : itemNames) {
@@ -653,10 +1475,18 @@ public class VendingMachine {
         return quantitySold;
     }
 
-    private double getTotalAmount(String itemName) {
+    /**
+     * Retrieves the total amount generated from selling a specific item.
+     *
+     * @param itemName The name of the item for which the total amount is to be retrieved.
+     * @return The total amount generated from selling the specified item.
+     */
+    public double getTotalAmount(String itemName) {
         double totalAmount = 0.0;
 
+        // Iterate through the list of recorded item names and their corresponding prices
         for (int i = 0; i < itemNames.size(); i++) {
+            // If the item name matches the specified item name, add its price to the totalAmount
             if (itemNames.get(i).equals(itemName)) {
                 totalAmount += itemPrices.get(i);
             }
@@ -665,7 +1495,12 @@ public class VendingMachine {
         return totalAmount;
     }
 
-    // Add this method to the RegularVendingMachine class
+    /**
+     * Checks if a specific slot in the RegularVendingMachine is empty.
+     *
+     * @param slotNumber The slot number to be checked for emptiness.
+     * @return {@code true} if the specified slot is empty; otherwise, {@code false}.
+     */
     public boolean isSlotEmpty(int slotNumber) {
         for (Slot slot : slots) {
             if (slot.getSlotNumber() == slotNumber) {
@@ -675,6 +1510,9 @@ public class VendingMachine {
         return true; // Return true if the slot number is not found
     }
 
+    /**
+     * Displays the starting inventory in the Vending Machine.
+     */
     public void displayStartInventory() {
         System.out.println("\nStart Inventory in Vending Machine:");
         System.out.println("Slot | Item Name                   | Price    | Start Quantity");
@@ -688,6 +1526,9 @@ public class VendingMachine {
         }
     }
 
+    /**
+     * Displays the last inventory in the Vending Machine.
+     */
     public void displayLastInventory() {
         System.out.println("\nLast Inventory in Vending Machine:");
         System.out.println("Slot | Item Name                   | Price    | Last Quantity");
@@ -701,203 +1542,4 @@ public class VendingMachine {
         }
     }
 
-
-
-    /**
-     * Creates a vending machine based on user choice.
-     */
-    public void createVendingMachine() {
-        displayCreateVendingMachineMenu();
-        
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nEnter your choice: ");
-        int vendingMachineType = scanner.nextInt();
-
-        switch(vendingMachineType){
-            case 1: createRegularVendingMachine();  break;
-            case 2: // createSpecialVendingMachine();   break;
-            case 3: break;
-            default: System.out.println("Invalid choice.");  break;
-        }
-    }
-
-    /**
-     * Creates a regular vending machine based on user choice.
-    */
-    public void createRegularVendingMachine() {
-        Scanner scanner = new Scanner(System.in);
-
-        // Prompt user for the number of slots
-        System.out.print("\nEnter the number of slots (minimum 8): ");
-        int numSlots = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
-
-        // Validate the number of slots
-        if (numSlots < 8) {
-            System.out.println("Error: Minimum number of slots should be 8.");
-            return; // Exit the method if the number of slots is invalid
-        }
-
-        for (int i = 1; i <= numSlots; i++) {
-            Slot slot = new Slot(i, numSlots);
-            slots.add(slot);
-        }
-        System.out.println("\n ... Regular Vending Machine created successfully! ...");
-    }
-
-    /**
-     * Performs testing operations on the vending machine based on user choice.
-     */
-    public void testVendingMachine() {
-        Scanner scanner = new Scanner(System.in);
-
-        displayTestVendingMachineMenu();
-        System.out.print("\nEnter your choice: ");
-        int featureType = scanner.nextInt();
-
-        if (featureType == 1) {
-            // Display current items and price
-            // Display insert money
-            displayTestFeaturesVM();
-            System.out.print("\nEnter your choice: ");
-            int vendingMachineFeatures = scanner.nextInt();
-            
-            boolean exitLoop = false;
-            
-            switch (vendingMachineFeatures) {
-                case 1: // start test 
-                    displayRVMProducts();
-
-                    displayCurrentFunds();
-
-                    boolean paymentFinished = false;
-
-                    while (!exitLoop) {
-                        if (!paymentFinished) {
-                            displayPaymentMenu();
-                            System.out.print("\nEnter your choice: ");
-                            int choicePayment = scanner.nextInt();
-
-                            switch (choicePayment) {
-                                case 1:
-                                    displayCoinsMenu();
-                                    while (true) {
-                                        System.out.print("\nEnter your choice: ");
-                                        int choiceCoin = scanner.nextInt();
-                                        switch (choiceCoin) {
-                                            case 1: denomination.insertCoin1(); break;
-                                            case 2: denomination.insertCoin5(); break;
-                                            case 3: denomination.insertCoin10(); break;
-                                            case 4: denomination.insertCoin20(); break;
-                                            case 5: System.out.println("Going back to the vending machine..."); break;
-                                            default: System.out.println("Invalid choice. Please try again."); break;
-                                        }
-
-                                        if (choiceCoin == 5) {
-                                            break;
-                                        }
-                                    }
-                                    break;
-                                case 2:
-                                    displayBillMenu();
-                                    while (true) {
-                                        System.out.print("\nEnter your choice: ");
-                                        int choiceBill = scanner.nextInt();
-                                        switch (choiceBill) {
-                                            case 1: denomination.insertBill20(); break;
-                                            case 2: denomination.insertBill50(); break;
-                                            case 3: denomination.insertBill100(); break;
-                                            case 4: denomination.insertBill200(); break;
-                                            case 5: denomination.insertBill500(); break;
-                                            case 6: denomination.insertBill1000(); break;
-                                            case 7: System.out.println("Going back to the vending machine..."); break;
-                                            default: System.out.println("Invalid choice. Please try again."); break;
-                                        }
-
-                                        if (choiceBill == 7) {
-                                            break;
-                                        }
-                                    }
-                                    break;
-                                case 3:
-                                    paymentFinished = true;
-                                    System.out.println("\nInserting money...");
-                                    break;
-                                default:
-                                    System.out.println("\nInvalid choice. Please try again.");
-                                    break;
-                            }
-                            if (paymentFinished) {
-                                break;
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-
-                    if (paymentFinished) {
-                        System.out.print("\nEnter the slot number: ");
-                        int selectedSlot = scanner.nextInt();
-                        double insertedAmount = denomination.getTotalValue();
-                        double changeAmount = insertedAmount - slots.get(selectedSlot - 1).getItem().getItemPrice();
-                        // Purchase the item from the selected slot
-                        purchaseItem(selectedSlot, insertedAmount, changeAmount);
-                    }
-
-                    break;
-                case 2: // end test
-                    System.out.println("Ending the test.");
-                    break;
-                case 3: // return to main menu
-                    return;
-                default:
-                    System.out.println("Invalid choice.");
-                    break;
-            }
-            if (exitLoop) {
-                return;
-            }
-
-        } else if (featureType == 2) {
-            displayMaintenanceFeaturesMenu();
-            
-            System.out.print("\nEnter your choice: ");
-            int vendingMachineMaintenance = scanner.nextInt();
-            
-            // Implement maintenance features
-            switch (vendingMachineMaintenance) {
-                case 1: // restock items
-                    displayRVMProducts();
-                    slotMenu();
-                    break;
-                case 2: // change price for each item type
-                    displayRVMProducts();
-                    setItemPrice();
-                    break;
-                case 3: // collect money from machine
-                    collectMoney();
-                    break;
-                case 4: // replenish money
-                   replenishMoney();
-                    break;
-                case 5: // print list of transactions
-                    displayTransactions();
-                    break;
-                case 6: // list quantity of items sold
-                    displayItemsSold();
-                    break;
-                case 7: // display starting inventory
-                    displayStartInventory();
-                    break; 
-                case 8: // display last inventory
-                    displayLastInventory();
-                    return;
-                case 9: // Return to main menu
-                    return;
-                default:
-                    System.out.println("Invalid choice.");
-                    break;
-            }
-        }
-    }
 }

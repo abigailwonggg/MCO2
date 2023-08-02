@@ -8,6 +8,8 @@ public class Item {
     private int itemQuantity;
     private int itemCalories; 
     private int initialQuantity;
+    private int quantitySold; // New field to track quantity sold
+    private double totalAmount; // New field to track total amount sold
 
     /**
      * Constructs an Item object with the specified parameters
@@ -123,11 +125,73 @@ public class Item {
         return 1;
     }
 
+    /**
+     * Gets the initial quantity of the item.
+     *
+     * @return The initial quantity of the item.
+     */
     public int getInitialQuantity() {
         return initialQuantity;
     }
 
+    /**
+     * Sets the initial quantity of the item.
+     *
+     * @param initialQuantity The initial quantity of the item to be set.
+     */
     public void setInitialQuantity(int initialQuantity) {
         this.initialQuantity = initialQuantity;
     }
+
+    /**
+     * Checks if the item is a customized package.
+     *
+     * @return {@code true} if the item is a customized package; otherwise, {@code false}.
+     */
+    public boolean isCustomizedPackage() {
+        return this instanceof CustomizedPackage;
+
+    }
+
+    /**
+     * Get the quantity of items sold in the vending machine.
+     *
+     * @return The quantity of items sold.
+     */
+    public int getQuantitySold() {
+        return quantitySold;
+    }
+
+    /**
+     * Set the quantity of items sold in the vending machine. 
+     * @param quantitySold
+     */
+    public void setQuantitySold(int quantitySold) {
+        this.quantitySold = quantitySold;
+    }
+   
+    /**
+     * Get the total amount of money earned from this vending machine.
+     *
+     * @return The total amount of money earned.
+     */
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+    
+    /**
+     * Set the total amount of money earned from this vending machine.
+     *
+     * @param totalAmount The total amount of money earned to set.
+     */
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+
+   
+
+   
+    
+
 }

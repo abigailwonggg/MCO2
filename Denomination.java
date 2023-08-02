@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -287,42 +286,34 @@ public class Denomination {
         return totalMoney;
     }
 
+
     /**
      * Prompts the user to insert ₱1 coins into the vending machine
      */
-    public void insertCoin1() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱1 coins you want to insert: ");
-        int coin1Count = scanner.nextInt();
-        
+    public void insertCoin1(int coin1Count) {
         // Calculate the value of the inserted coins
         double coin1Value = 1.0 * coin1Count;
-        
+    
         // Update the coin 1 count and totalValue
         denominationsMap.put(1.0, denominationsMap.getOrDefault(1.0, 0) + coin1Count);
         totalValue += coin1Value;
-        
+    
         System.out.println("You inserted " + coin1Count + " ₱1 coins");
         System.out.println("Total Value: ₱" + totalValue);
     }
+    
 
     /**
      * Prompts the user to insert ₱5 coins into the vending machine
      */
-    public void insertCoin5() { 
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱5 coins you want to insert: ");
-        int coin5Count = scanner.nextInt();
-        
+    public void insertCoin5(int coin5Count) {
         // Calculate the value of the inserted coins
-        double coin5Value = 5.0 * coin5Count;
-        
+        double coint5Value = 5.0 * coin5Count;
+    
         // Update the coin 5 count and totalValue
         denominationsMap.put(5.0, denominationsMap.getOrDefault(5.0, 0) + coin5Count);
-        totalValue += coin5Value;
-        
+        totalValue += coint5Value;
+    
         System.out.println("You inserted " + coin5Count + " ₱5 coins");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -330,19 +321,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱10 coins into the vending machine
      */
-    public void insertCoin10() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱10 coins you want to insert: ");
-        int coin10Count = scanner.nextInt();
-        
+    public void insertCoin10(int coin10Count) {
         // Calculate the value of the inserted coins
-        double coin10Value = 10.0 * coin10Count;
-        
+        double coint10Value = 10.0 * coin10Count;
+    
         // Update the coin 10 count and totalValue
-        denominationsMap.put(10.0, denominationsMap.getOrDefault(10.0, 0) + coin10Count);
-        totalValue += coin10Value;
-        
+        denominationsMap.put(5.0, denominationsMap.getOrDefault(10.0, 0) + coin10Count);
+        totalValue += coint10Value;
+    
         System.out.println("You inserted " + coin10Count + " ₱10 coins");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -350,19 +336,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱20 coins into the vending machine
      */
-    public void insertCoin20(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱20 coins you want to insert: ");
-        int coin20Count = scanner.nextInt();
-        
+    public void insertCoin20(int coin20Count) {
         // Calculate the value of the inserted coins
-        double coin20Value = 20.0 * coin20Count;
-        
+        double coint20Value = 20.0 * coin20Count;
+    
         // Update the coin 20 count and totalValue
         denominationsMap.put(20.0, denominationsMap.getOrDefault(20.0, 0) + coin20Count);
-        totalValue += coin20Value;
-        
+        totalValue += coint20Value;
+    
         System.out.println("You inserted " + coin20Count + " ₱20 coins");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -370,19 +351,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱20 bills into the vending machine
      */
-    public void insertBill20(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱20 bills you want to insert: ");
-        int bill20Count = scanner.nextInt();
-        
+    public void insertBill20(int bill20Count) {
         // Calculate the value of the inserted bills
         double bill20Value = 20.0 * bill20Count;
-        
+    
         // Update the bill 20 count and totalValue
         denominationsMap.put(20.0, denominationsMap.getOrDefault(20.0, 0) + bill20Count);
         totalValue += bill20Value;
-        
+    
         System.out.println("You inserted " + bill20Count + " ₱20 bills");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -390,19 +366,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱50 bills into the vending machine
      */
-    public void insertBill50(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱50 bills you want to insert: ");
-        int bill50Count = scanner.nextInt();
-        
+    public void insertBill50(int bill50Count) {
         // Calculate the value of the inserted bills
         double bill50Value = 50.0 * bill50Count;
-        
+    
         // Update the bill 50 count and totalValue
         denominationsMap.put(50.0, denominationsMap.getOrDefault(50.0, 0) + bill50Count);
         totalValue += bill50Value;
-        
+    
         System.out.println("You inserted " + bill50Count + " ₱50 bills");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -410,19 +381,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱100 bills into the vending machine
      */
-    public void insertBill100(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱100 bills you want to insert: ");
-        int bill100Count = scanner.nextInt();
-        
+    public void insertBill100(int bill100Count) {
         // Calculate the value of the inserted bills
         double bill100Value = 100.0 * bill100Count;
-        
+    
         // Update the bill 100 count and totalValue
-        denominationsMap.put(100.0, denominationsMap.getOrDefault(20.0, 0) + bill100Count);
+        denominationsMap.put(100.0, denominationsMap.getOrDefault(100.0, 0) + bill100Count);
         totalValue += bill100Value;
-        
+    
         System.out.println("You inserted " + bill100Count + " ₱100 bills");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -430,19 +396,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱200 bills into the vending machine
      */
-    public void insertBill200(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱200 bills you want to insert: ");
-        int bill200Count = scanner.nextInt();
-        
-        // Calculate the value of the inserted bills
+    public void insertBill200(int bill200Count) {
+        // Calculate the value of the inserted bill
         double bill200Value = 200.0 * bill200Count;
-        
-        // Update the bill 20 count and totalValue
+    
+        // Update the bill 50 count and totalValue
         denominationsMap.put(200.0, denominationsMap.getOrDefault(200.0, 0) + bill200Count);
         totalValue += bill200Value;
-        
+    
         System.out.println("You inserted " + bill200Count + " ₱200 bills");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -450,19 +411,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱500 bills into the vending machine
      */
-    public void insertBill500(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱500 bills you want to insert: ");
-        int bill500Count = scanner.nextInt();
-        
+    public void insertBill500(int bill500Count) {
         // Calculate the value of the inserted bills
         double bill500Value = 500.0 * bill500Count;
-        
-        // Update the bill 500 count and totalValue
+    
+        // Update the bill 50 count and totalValue
         denominationsMap.put(500.0, denominationsMap.getOrDefault(500.0, 0) + bill500Count);
         totalValue += bill500Value;
-        
+    
         System.out.println("You inserted " + bill500Count + " ₱500 bills");
         System.out.println("Total Value: ₱" + totalValue);
     }
@@ -470,19 +426,14 @@ public class Denomination {
     /**
      * Prompts the user to insert ₱1000 bills into the vending machine
      */
-    public void insertBill1000(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nPlease input the number of ₱1000 bills you want to insert: ");
-        int bill1000Count = scanner.nextInt();
-        
+    public void insertBill1000(int bill1000Count) {
         // Calculate the value of the inserted bills
         double bill1000Value = 1000.0 * bill1000Count;
-        
-        // Update the bill 1000 count and totalValue
-        denominationsMap.put(1000.0, denominationsMap.getOrDefault(20.0, 0) + bill1000Count);
+    
+        // Update the bill 100 count and totalValue
+        denominationsMap.put(1000.0, denominationsMap.getOrDefault(1000.0, 0) + bill1000Count);
         totalValue += bill1000Value;
-        
+    
         System.out.println("You inserted " + bill1000Count + " ₱1000 bills");
         System.out.println("Total Value: ₱" + totalValue);
     }

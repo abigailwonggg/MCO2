@@ -23,7 +23,13 @@ public class Slot {
         this.itemCount = item.getItemQuantity();
         this.slotNumber = slotNumber;
     }
-
+    
+    /**
+     * Creates a new slot with the specified slot number and slot capacity.
+     *
+     * @param slotNumber The number of the slot.
+     * @param slotCapacity The maximum capacity of the slot.
+     */
     public Slot(int slotNumber, int slotCapacity) {
         this.slotNumber = slotNumber;
         this.slotCapacity = slotCapacity;
